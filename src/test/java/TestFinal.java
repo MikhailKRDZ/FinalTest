@@ -59,9 +59,6 @@ public class TestFinal {
             }
         }
 
-//        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-//        driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
 
         driver.get("http://automationpractice.com/index.php");
         homePage = new HomePage(driver);
@@ -110,7 +107,7 @@ public class TestFinal {
 
         System.out.println(searchValue);
 
-//            assertTrue(result.getFirstLink().contains("automated"));
+
         Assert.assertEquals("Your message has been successfully sent to our team.", searchValue);
 
     }
@@ -134,8 +131,7 @@ public class TestFinal {
         fileUpload.sendKeys("D:\\Учеба\\АТ\\Final\\Test.txt");
 
 
-//        WebElement message = driver.findElement(By.xpath("//*[@id=\"message\"]"));
-//        message.sendKeys("Test");
+
 
         WebElement submitMessage = driver.findElement(By.id("submitMessage"));
         submitMessage.click();
