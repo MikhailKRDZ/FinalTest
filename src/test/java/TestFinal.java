@@ -76,37 +76,20 @@ public class TestFinal {
     public void contactUsFormSendsSuccessfully(){
 
          homePage.contactUsPage();
+        contactUsPage.uniformIdContact();
+        contactUsPage.descContact2();
+        contactUsPage.formControl();
+        contactUsPage.fileUpload();
+        contactUsPage.message();
+        contactUsPage.submitMessage();
+
+        String contactUsFormSends = contactUsPage.successfullySent();
+
+        System.out.println(contactUsFormSends);
 
 
-        WebElement contactLink = driver.findElement(By.id("contact-link"));
-        contactLink.click();
+        Assert.assertEquals("Your message has been successfully sent to our team.", contactUsFormSends);
 
-        WebElement uniformIdContact = driver.findElement(By.id("uniform-id_contact"));
-        uniformIdContact.click();
-
-        WebElement descContact2 = driver.findElement(By.xpath("//*[@id=\"id_contact\"]//option[2]"));
-        descContact2.click();
-
-        WebElement formControl = driver.findElement(By.xpath("//*[@id=\"email\"]"));
-        formControl.sendKeys("mikhailkirdzik@gmail.com");
-
-        WebElement fileUpload = driver.findElement(By.xpath("//*[@id=\"fileUpload\"]"));
-        fileUpload.sendKeys("D:\\Учеба\\АТ\\Final\\Test.txt");
-
-
-        WebElement message = driver.findElement(By.xpath("//*[@id=\"message\"]"));
-        message.sendKeys("Test");
-
-        WebElement submitMessage = driver.findElement(By.id("submitMessage"));
-        submitMessage.click();
-
-        WebElement successfullySent = driver.findElement(By.xpath("//*[@id=\"center_column\"]//p"));
-        String searchValue = successfullySent.getText();
-
-        System.out.println(searchValue);
-
-
-        Assert.assertEquals("Your message has been successfully sent to our team.", searchValue);
 
     }
 
@@ -114,33 +97,17 @@ public class TestFinal {
 
     public void errorMessageAppearsIfMessageAreaIsEmpty(){
         homePage.contactUsPage();
+        contactUsPage.uniformIdContact();
+        contactUsPage.descContact2();
+        contactUsPage.formControl();
+        contactUsPage.fileUpload();
+        contactUsPage.submitMessage();
 
+        String errorMessageAppears = contactUsPage.cannotBeBlank();
 
-        WebElement uniformIdContact = driver.findElement(By.id("uniform-id_contact"));
-        uniformIdContact.click();
+        System.out.println(errorMessageAppears);
 
-        WebElement descContact2 = driver.findElement(By.xpath("//*[@id=\"id_contact\"]//option[2]"));
-        descContact2.click();
-
-        WebElement formControl = driver.findElement(By.xpath("//*[@id=\"email\"]"));
-        formControl.sendKeys("mikhailkirdzik@gmail.com");
-
-        WebElement fileUpload = driver.findElement(By.xpath("//*[@id=\"fileUpload\"]"));
-        fileUpload.sendKeys("D:\\Учеба\\АТ\\Final\\Test.txt");
-
-
-
-
-        WebElement submitMessage = driver.findElement(By.id("submitMessage"));
-        submitMessage.click();
-
-        WebElement cannotBeBlank = driver.findElement(By.xpath("//*[@id=\"center_column\"]//li"));
-
-                String searchValueCannotBeBlank = cannotBeBlank.getText();
-
-        System.out.println(searchValueCannotBeBlank);
-
-        Assert.assertEquals("The message cannot be blank.", searchValueCannotBeBlank);
+        Assert.assertEquals("The message cannot be blank.", errorMessageAppears);
 
     }
 
