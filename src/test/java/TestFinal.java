@@ -77,8 +77,6 @@ public class TestFinal {
 
          homePage.contactUsPage();
 
-//Fill in all the fields attach txt file
-//        Verify that the success message is displayed.
 
         WebElement contactLink = driver.findElement(By.id("contact-link"));
         contactLink.click();
