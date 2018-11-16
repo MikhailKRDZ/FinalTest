@@ -2,7 +2,7 @@
 .iml
 
 #folder .idea
-.idea/
+/.idea/
 
 #folder target
-target/
+/target/
