@@ -1,7 +1,5 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -10,24 +8,23 @@ import org.testng.annotations.*;
 import pages.ContactUsPage;
 import pages.HomePage;
 import pages.SearchResultPage;
-
+import pages.SignInPage;
 import java.util.HashMap;
 import java.util.Map;
-
-import static junit.framework.TestCase.assertTrue;
 
 public class TestFinal {
     private WebDriver driver;
     private HomePage homePage;
     private ContactUsPage contactUsPage;
     private SearchResultPage searchResultPage;
+    private SignInPage signInPage;
 
     @BeforeMethod(alwaysRun = true)
     @Parameters({"Browser", "Device", "Width", "Height"})
     public void start(@Optional String browserName,
                       @Optional String deviceName,
                       @Optional Integer width,
-                      @Optional Integer height){
+                      @Optional Integer height) {
         if (browserName == null || browserName.isEmpty()) {
             driver = new ChromeDriver();
 //            driver = new FirefoxDriver();
@@ -36,12 +33,9 @@ public class TestFinal {
                 if (deviceName != null && !deviceName.isEmpty()) {
                     Map<String, String> mobileEmulation = new HashMap<String, String>();
                     mobileEmulation.put("deviceName", deviceName);
-
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-
                     driver = new ChromeDriver(chromeOptions);
-
                 } else {
                     driver = new ChromeDriver();
                 }
@@ -51,31 +45,27 @@ public class TestFinal {
                 driver = new ChromeDriver();
             }
         }
-
         if (deviceName != null && !deviceName.isEmpty()) {
-            if (width!=null && width!=0 && height!=null && height!=0) {
+            if (width != null && width != 0 && height != null && height != 0) {
                 Dimension dimension = new Dimension(width, height);
                 driver.manage().window().setSize(dimension);
             }
         }
-
-
         driver.get("http://automationpractice.com/index.php");
         homePage = new HomePage(driver);
         contactUsPage = new ContactUsPage(driver);
         searchResultPage = new SearchResultPage(driver);
+        signInPage = new SignInPage(driver);
     }
 
     @AfterMethod(alwaysRun = true)
-    public void finish(){
+    public void finish() {
         driver.quit();
     }
 
-
     @Test()
-    public void contactUsFormSendsSuccessfully(){
-
-         homePage.contactUsPage();
+    public void contactUsFormSendsSuccessfully() {
+        homePage.contactUsPage();
         contactUsPage.uniformIdContact();
         contactUsPage.descContact2();
         contactUsPage.formControl();
@@ -85,17 +75,13 @@ public class TestFinal {
 
         String contactUsFormSends = contactUsPage.successfullySent();
 
-        System.out.println(contactUsFormSends);
-
-
-        Assert.assertEquals("Your message has been successfully sent to our team.", contactUsFormSends);
-
-
+        Assert.assertEquals("Your message has been successfully sent to our team.", contactUsFormSends,
+                "Search result should contain 'Your message has been successfully sent to our team.'");
     }
 
     @Test()
 
-    public void errorMessageAppearsIfMessageAreaIsEmpty(){
+    public void errorMessageAppearsIfMessageAreaIsEmpty() {
         homePage.contactUsPage();
         contactUsPage.uniformIdContact();
         contactUsPage.descContact2();
@@ -105,13 +91,18 @@ public class TestFinal {
 
         String errorMessageAppears = contactUsPage.cannotBeBlank();
 
-        System.out.println(errorMessageAppears);
-
-        Assert.assertEquals("The message cannot be blank.", errorMessageAppears);
-
+        Assert.assertEquals("The message cannot be blank.", errorMessageAppears,
+                "Search result should contain 'The message cannot be blank.");
     }
 
-
-
-
+    @Test
+    public void verifyTheAbilityToRegister() {
+        homePage.signInPage();
+        signInPage.emailCreate();
+        signInPage.iconUser();
+        int d = 0;
+    }
 }
+
+
+

@@ -1,2 +1,8 @@
+
 .iml
-.idea
+
+#folder .idea
+.idea/
+
+#folder target
+target/
