@@ -100,7 +100,8 @@ public class TestFinal {
         homePage.signInPage();
         signInPage.emailCreate();
         signInPage.iconUser();
-        int d = 0;
+
+        int d = 123;
     }
 }
 
