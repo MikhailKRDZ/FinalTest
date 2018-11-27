@@ -3,12 +3,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pages.ContactUsPage;
-import pages.HomePage;
-import pages.SearchResultPage;
-import pages.SignInPage;
+import pages.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +17,7 @@ public class TestFinal {
     private ContactUsPage contactUsPage;
     private SearchResultPage searchResultPage;
     private SignInPage signInPage;
+    private AuthenticationPage authenticationPage;
 
     @BeforeMethod(alwaysRun = true)
     @Parameters({"Browser", "Device", "Width", "Height"})
@@ -56,6 +56,8 @@ public class TestFinal {
         contactUsPage = new ContactUsPage(driver);
         searchResultPage = new SearchResultPage(driver);
         signInPage = new SignInPage(driver);
+        authenticationPage = new AuthenticationPage(driver);
+        Actions builder = new Actions(driver);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -100,7 +102,7 @@ public class TestFinal {
         homePage.signInPage();
         signInPage.emailCreate();
         signInPage.iconUser();
-
+        authenticationPage.gender();
         int d = 251232198;
     }
 }
