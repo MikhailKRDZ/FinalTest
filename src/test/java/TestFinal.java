@@ -2,6 +2,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+<<<<<<< HEAD
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -10,6 +11,15 @@ import pages.*;
 import java.util.UUID;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+=======
+import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
+import org.testng.annotations.*;
+import pages.*;
+
+import java.util.HashMap;
+import java.util.Map;
+>>>>>>> d6ea5c0d71a9c69c4f431d6e125a9eef7b5bca9d
 
 public class TestFinal {
     private WebDriver driver;
@@ -52,11 +62,20 @@ public class TestFinal {
             }
         }
         driver.get("http://automationpractice.com/index.php");
+<<<<<<< HEAD
         homePage = PageFactory.initElements(driver, HomePage.class);
         contactUsPage = PageFactory.initElements(driver, ContactUsPage.class);
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
         signInPage = PageFactory.initElements(driver, SignInPage.class);
         authenticationPage = PageFactory.initElements(driver, AuthenticationPage.class);
+=======
+        homePage = new HomePage(driver);
+        contactUsPage = new ContactUsPage(driver);
+        searchResultPage = new SearchResultPage(driver);
+        signInPage = new SignInPage(driver);
+        authenticationPage = new AuthenticationPage(driver);
+        Actions builder = new Actions(driver);
+>>>>>>> d6ea5c0d71a9c69c4f431d6e125a9eef7b5bca9d
     }
 
     @AfterMethod(alwaysRun = true)
@@ -104,6 +123,7 @@ public class TestFinal {
         homePage.signInPage();
         signInPage.emailCreate(randomText);
         signInPage.iconUser();
+<<<<<<< HEAD
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 
@@ -133,6 +153,10 @@ public class TestFinal {
 
         Assert.assertTrue(driver.getTitle().contains("My account"), "Header contains My account ");
         driver.getCurrentUrl();
+=======
+        authenticationPage.gender();
+        int d = 251232198;
+>>>>>>> d6ea5c0d71a9c69c4f431d6e125a9eef7b5bca9d
     }
 }
 

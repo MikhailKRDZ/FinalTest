@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: report.donut:donut-maven-plugin:0.0.6">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/report/donut/donut-maven-plugin/0.0.6/donut-maven-plugin-0.0.6.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/report/donut/donut-maven-plugin/0.0.6/donut-maven-plugin-0.0.6-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/report/donut/donut-maven-plugin/0.0.6/donut-maven-plugin-0.0.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
