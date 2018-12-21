@@ -1,16 +1,15 @@
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pages.ContactUsPage;
-import pages.HomePage;
-import pages.SearchResultPage;
-import pages.SignInPage;
-import java.util.HashMap;
-import java.util.Map;
+import org.testng.annotations.Optional;
+import pages.*;
+import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class TestFinal {
     private WebDriver driver;
@@ -18,6 +17,7 @@ public class TestFinal {
     private ContactUsPage contactUsPage;
     private SearchResultPage searchResultPage;
     private SignInPage signInPage;
+    private AuthenticationPage authenticationPage;
 
     @BeforeMethod(alwaysRun = true)
     @Parameters({"Browser", "Device", "Width", "Height"})
@@ -48,14 +48,15 @@ public class TestFinal {
         if (deviceName != null && !deviceName.isEmpty()) {
             if (width != null && width != 0 && height != null && height != 0) {
                 Dimension dimension = new Dimension(width, height);
-                driver.manage().window().setSize(dimension);
+                driver.manage().window().maximize();
             }
         }
         driver.get("http://automationpractice.com/index.php");
-        homePage = new HomePage(driver);
-        contactUsPage = new ContactUsPage(driver);
-        searchResultPage = new SearchResultPage(driver);
-        signInPage = new SignInPage(driver);
+        homePage = PageFactory.initElements(driver, HomePage.class);
+        contactUsPage = PageFactory.initElements(driver, ContactUsPage.class);
+        searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
+        signInPage = PageFactory.initElements(driver, SignInPage.class);
+        authenticationPage = PageFactory.initElements(driver, AuthenticationPage.class);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -97,13 +98,42 @@ public class TestFinal {
 
     @Test
     public void verifyTheAbilityToRegister() {
-        homePage.signInPage();
-        signInPage.emailCreate();
-        signInPage.iconUser();
 
-        int d = 25123218;
+        String randomText = UUID.randomUUID().toString();
+
+        homePage.signInPage();
+        signInPage.emailCreate(randomText);
+        signInPage.iconUser();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+
+        authenticationPage.idGender();
+        authenticationPage.customerFirstName();
+        authenticationPage.customerLastName();
+        authenticationPage.password();
+        authenticationPage.dateOfBirth();
+        authenticationPage.monthOfBirth();
+        authenticationPage.yearOfBirth();
+        authenticationPage.signNewsletter();
+        authenticationPage.receiveSpecialOffersFromOurPartners();
+        authenticationPage.firstName();
+        authenticationPage.lastName();
+        authenticationPage.companyName();
+        authenticationPage.address1();
+        authenticationPage.address2();
+        authenticationPage.city();
+        authenticationPage.state();
+        authenticationPage.postcode();
+        authenticationPage.country();
+        authenticationPage.additionalInformation();
+        authenticationPage.homePhone();
+        authenticationPage.mobilePhone();
+        authenticationPage.assignAnAddressAliasForFutureReference();
+        authenticationPage.registerButton();
+
+        Assert.assertTrue(driver.getTitle().contains("My account"), "Header contains My account ");
+        driver.getCurrentUrl();
     }
 }
-
 
 

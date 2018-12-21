@@ -1,22 +1,24 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 
 public class HomePage {
     private WebDriver driver;
 
-    public HomePage(WebDriver driver) {
-        this.driver = driver;
-    }
-    private static By contactLink_locator = By.id("contact-link");
-    private static By headerUserInfo_locator = By.className("header_user_info");
+
+    @FindBy(id = "contact-link")
+    private WebElement contactLink_locator;
+    @FindBy(className = "header_user_info")
+    private WebElement headerUserInfo_locator;
 
     public void contactUsPage() {
-        driver.findElement(contactLink_locator).click();
+        contactLink_locator.click();
     }
+
     public void signInPage() {
-        driver.findElement(headerUserInfo_locator).click();
+        headerUserInfo_locator.click();
     }
 }
