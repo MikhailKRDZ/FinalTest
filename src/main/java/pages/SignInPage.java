@@ -12,8 +12,6 @@ public class SignInPage {
     @FindBy(className = "icon-user")
     WebElement iconUser_locator;
 
-
-
     public void emailCreate(String mail) {
         emailCreate_locator.sendKeys(mail + "@mail.ru");
     }

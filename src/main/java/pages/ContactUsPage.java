@@ -25,7 +25,6 @@ public class ContactUsPage {
     @FindBy(xpath = "//*[@id=\'center_column\']//li")
     WebElement cannotBeBlank_locator;
 
-
     public void uniformIdContact() {
         uniformIdContact_locator.click();
     }
