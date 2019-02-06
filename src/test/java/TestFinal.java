@@ -131,9 +131,20 @@ public class TestFinal {
         authenticationPage.mobilePhone();
         authenticationPage.assignAnAddressAliasForFutureReference();
         authenticationPage.registerButton();
+        driver.getCurrentUrl();
 
         Assert.assertTrue(driver.getTitle().contains("My account"), "Header contains My account ");
-        driver.getCurrentUrl();
+    }
+
+    @Test
+    public void verifyTheAbilityToSearchItems() {
+        homePage.searchGoods("Blouse");
+        String searchGoods = searchResultPage.getSearchGoodsName();
+        Integer numbersOfItemsFound = searchResultPage.getNumbersOfItemsFound();
+
+        Assert.assertTrue(searchGoods.contains("BLOUSE"), "Header contains Blouse ");
+
+        Assert.assertTrue(numbersOfItemsFound > 0, "numbersOfItemsFound more than 0 ");
     }
 }
 
