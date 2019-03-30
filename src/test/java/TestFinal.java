@@ -2,15 +2,16 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.annotations.Optional;
 import pages.*;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class TestFinal {
@@ -20,6 +21,7 @@ public class TestFinal {
     private SearchResultPage searchResultPage;
     private SignInPage signInPage;
     private AuthenticationPage authenticationPage;
+    private ShoppingCartSummary shoppingCartSummary;
 
     @BeforeMethod(alwaysRun = true)
     @Parameters({"Browser", "Device", "Width", "Height"})
@@ -60,6 +62,7 @@ public class TestFinal {
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
         signInPage = PageFactory.initElements(driver, SignInPage.class);
         authenticationPage = PageFactory.initElements(driver, AuthenticationPage.class);
+        shoppingCartSummary = PageFactory.initElements(driver, ShoppingCartSummary.class);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -145,6 +148,34 @@ public class TestFinal {
         Assert.assertTrue(searchGoods.contains("BLOUSE"), "Header contains Blouse ");
 
         Assert.assertTrue(numbersOfItemsFound > 0, "numbersOfItemsFound more than 0 ");
+    }
+
+    @Test
+    public void verifyTheAbilityToAddAndDeleteItemsFromCart() {
+        String expectedGood = "Blouse";
+        homePage.searchGoods(expectedGood);
+        searchResultPage.addToCart();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, 2);
+            wait.until(ExpectedConditions.alertIsPresent());
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+        } catch (Exception e) {
+        }
+
+        searchResultPage.checkout();
+        Actions actions = new Actions(driver);
+        WebElement shopCart = shoppingCartSummary.getViewMyShoppingCart();
+        actions.moveToElement(shopCart).perform();
+
+        Assert.assertEquals(true,shoppingCartSummary.getProductsNumbersInShoppingCart() == 1, "item successfully added to your cart");
+
+        Assert.assertEquals(expectedGood,shoppingCartSummary.getProductsNameInShoppingCart(),"expectedGood and productsNameInShoppingCart the same");
+
+        shoppingCartSummary.cartRemoveLink();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        Assert.assertEquals("(empty)",shoppingCartSummary.getStringViewMyShoppingCart(),"Removed item from basket, shoppingCart is empty");
     }
 }
 
