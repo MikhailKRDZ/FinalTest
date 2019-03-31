@@ -54,6 +54,11 @@ public class AuthenticationPage {
     @FindBy(xpath = "//span[(text()='Register')]")
     private WebElement registerButton_locator;
 
+   @FindBy(id = "email_create")
+    private WebElement emailCreate_locator;
+
+
+
     public void monthOfBirth() {
             monthOfBirth_locator.click();
         }
@@ -145,6 +150,12 @@ public class AuthenticationPage {
 
     public void registerButton() {
         registerButton_locator.click();
+    }
+
+
+
+    public void ustomerFirstName() {
+        customerFirstName_locator.sendKeys("Abc");
     }
 
 }

@@ -23,6 +23,14 @@ public class TestFinal {
     private AuthenticationPage authenticationPage;
     private ShoppingCartSummary shoppingCartSummary;
     private Catalog catalog;
+    private AdressPage adressPage;
+    private ShippingPage shippingPage;
+    private YourPaymentMethodPage yourPaymentMethodPage;
+    private CheckPaymentPage checkPaymentPage;
+    private OrderConfirmationPage orderConfirmationPage;
+    private OrderHistoryPage orderHistoryPage;
+
+
 
     @BeforeMethod(alwaysRun = true)
     @Parameters({"Browser", "Device", "Width", "Height"})
@@ -65,6 +73,12 @@ public class TestFinal {
         authenticationPage = PageFactory.initElements(driver, AuthenticationPage.class);
         shoppingCartSummary = PageFactory.initElements(driver, ShoppingCartSummary.class);
         catalog = PageFactory.initElements(driver, Catalog.class);
+        adressPage = PageFactory.initElements(driver, AdressPage.class);
+        shippingPage = PageFactory.initElements(driver, ShippingPage.class);
+        yourPaymentMethodPage = PageFactory.initElements(driver, YourPaymentMethodPage.class);
+        checkPaymentPage = PageFactory.initElements(driver, CheckPaymentPage.class);
+        orderConfirmationPage = PageFactory.initElements(driver, OrderConfirmationPage.class);
+        orderHistoryPage = PageFactory.initElements(driver, OrderHistoryPage.class);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -73,7 +87,7 @@ public class TestFinal {
     }
 
     @Test()
-    public void contactUsFormSendsSuccessfully() {
+    public void e1ContactUsFormSendsSuccessfully() {
         homePage.contactUsPage();
         contactUsPage.uniformIdContact();
         contactUsPage.descContact2();
@@ -90,7 +104,7 @@ public class TestFinal {
 
     @Test()
 
-    public void errorMessageAppearsIfMessageAreaIsEmpty() {
+    public void e2ErrorMessageAppearsIfMessageAreaIsEmpty() {
         homePage.contactUsPage();
         contactUsPage.uniformIdContact();
         contactUsPage.descContact2();
@@ -105,7 +119,7 @@ public class TestFinal {
     }
 
     @Test
-    public void verifyTheAbilityToRegister() {
+    public void e3VerifyTheAbilityToRegister() {
 
         String randomText = UUID.randomUUID().toString();
 
@@ -142,7 +156,7 @@ public class TestFinal {
     }
 
     @Test
-    public void verifyTheAbilityToSearchItems() {
+    public void e4VerifyTheAbilityToSearchItems() {
         homePage.searchGoods("Blouse");
         String searchGoods = searchResultPage.getSearchGoodsName();
         Integer numbersOfItemsFound = searchResultPage.getNumbersOfItemsFound();
@@ -153,7 +167,7 @@ public class TestFinal {
     }
 
     @Test
-    public void verifyTheAbilityToAddAndDeleteItemsFromCart() {
+    public void e5VerifyTheAbilityToAddAndDeleteItemsFromCart() {
         String expectedGood = "Blouse";
         homePage.searchGoods(expectedGood);
         searchResultPage.addToCart();
@@ -181,16 +195,82 @@ public class TestFinal {
     }
 
     @Test
-    public void catalogTest() {
+    public void e6CatalogTest() {
         Actions actions = new Actions(driver);
         WebElement women = homePage.getWomen();
         actions.moveToElement(women).perform();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         homePage.getTshirt();
         catalog.getCatalogName();
-        System.out.println(catalog.getCatalogName());
 
         Assert.assertEquals(catalog.getCatalogName(), "T-SHIRTS ", "catalog name T-SHIRTS ");
+    }
+
+    @Test
+    public void e7ProceedToCheckout() {
+        String randomText = UUID.randomUUID().toString();
+
+        homePage.signInPage();
+        signInPage.emailCreate(randomText);
+        signInPage.iconUser();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        authenticationPage.idGender();
+        authenticationPage.customerFirstName();
+        authenticationPage.customerLastName();
+        authenticationPage.password();
+        authenticationPage.dateOfBirth();
+        authenticationPage.monthOfBirth();
+        authenticationPage.yearOfBirth();
+        authenticationPage.signNewsletter();
+        authenticationPage.receiveSpecialOffersFromOurPartners();
+        authenticationPage.firstName();
+        authenticationPage.lastName();
+        authenticationPage.companyName();
+        authenticationPage.address1();
+        authenticationPage.address2();
+        authenticationPage.city();
+        authenticationPage.state();
+        authenticationPage.postcode();
+        authenticationPage.country();
+        authenticationPage.additionalInformation();
+        authenticationPage.homePhone();
+        authenticationPage.mobilePhone();
+        authenticationPage.assignAnAddressAliasForFutureReference();
+        authenticationPage.registerButton();
+        driver.getCurrentUrl();
+        Actions actions = new Actions(driver);
+        WebElement women = homePage.getWomen();
+        actions.moveToElement(women).perform();
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        homePage.getTshirt();
+        catalog.getCatalogName();
+        catalog.clickRightBlock();
+        catalog.addButtonExclusive();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, 2);
+            wait.until(ExpectedConditions.alertIsPresent());
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+        } catch (Exception e) {
+        }
+        catalog.getButtonContinueExclusive();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        shoppingCartSummary.getButtonCheckout();
+        adressPage.getButtonProcessAdress();
+        shippingPage.getCheckboxCgv();
+        shippingPage.getButtonProcessCarrier();
+        String totalInvoicesPrice = shippingPage.getTotalPrice();
+        yourPaymentMethodPage.getButtonPaymentCheque();
+        checkPaymentPage.getButtonConfirmMyOrder();
+
+        Assert.assertEquals(orderConfirmationPage.getTextAlertSuccess(), "Your order on My Store is complete.", "Order Completed Successfully!");
+
+        orderConfirmationPage.clickButtonBackToOrders();
+        String priceInOrderHistoryPage = orderHistoryPage.getPrice();
+
+        Assert.assertEquals(priceInOrderHistoryPage, totalInvoicesPrice, "totalInvoicesPrice equal priceInOrderHistoryPage," +
+                "so we made sure that the item is displayed in order history");
+
     }
 }
 

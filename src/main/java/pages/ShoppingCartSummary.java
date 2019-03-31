@@ -18,6 +18,8 @@ public class ShoppingCartSummary {
     private WebElement cartRemoveLink_locator;
     @FindBy(xpath = "//span[@class='ajax_cart_no_product']")
     private WebElement ajaxCartNoProduct_locator;
+    @FindBy(xpath = "//a[@class='button btn btn-default standard-checkout button-medium']")
+    private WebElement buttonCheckout_locator;
 
     public  WebElement getViewMyShoppingCart() {
         return viewMyShoppingCart_locator;
@@ -37,5 +39,8 @@ public class ShoppingCartSummary {
     public  String getStringViewMyShoppingCart() {
         String str = ajaxCartNoProduct_locator.getText();
         return str;
+    }
+    public  void getButtonCheckout() {
+        buttonCheckout_locator.click();
     }
 }
