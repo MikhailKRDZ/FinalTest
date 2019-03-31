@@ -22,6 +22,7 @@ public class TestFinal {
     private SignInPage signInPage;
     private AuthenticationPage authenticationPage;
     private ShoppingCartSummary shoppingCartSummary;
+    private Catalog catalog;
 
     @BeforeMethod(alwaysRun = true)
     @Parameters({"Browser", "Device", "Width", "Height"})
@@ -63,6 +64,7 @@ public class TestFinal {
         signInPage = PageFactory.initElements(driver, SignInPage.class);
         authenticationPage = PageFactory.initElements(driver, AuthenticationPage.class);
         shoppingCartSummary = PageFactory.initElements(driver, ShoppingCartSummary.class);
+        catalog = PageFactory.initElements(driver, Catalog.class);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -176,6 +178,19 @@ public class TestFinal {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         Assert.assertEquals("(empty)",shoppingCartSummary.getStringViewMyShoppingCart(),"Removed item from basket, shoppingCart is empty");
+    }
+
+    @Test
+    public void catalogTest() {
+        Actions actions = new Actions(driver);
+        WebElement women = homePage.getWomen();
+        actions.moveToElement(women).perform();
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        homePage.getTshirt();
+        catalog.getCatalogName();
+        System.out.println(catalog.getCatalogName());
+
+        Assert.assertEquals(catalog.getCatalogName(), "T-SHIRTS ", "catalog name T-SHIRTS ");
     }
 }
 
